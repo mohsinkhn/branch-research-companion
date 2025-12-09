@@ -48,7 +48,3 @@ class Config:
         """Ensure required directories exist."""
         cls.DATA_DIR.mkdir(parents=True, exist_ok=True)
         cls.LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
-
-
-# Default configuration instance
-config = Config()

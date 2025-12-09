@@ -3,7 +3,7 @@
 import os
 from pathlib import Path
 
-from branch.config import Config, config
+from branch.config import Config
 
 
 def test_config_defaults():
@@ -15,10 +15,11 @@ def test_config_defaults():
     assert Config.LOG_LEVEL in ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
 
 
-def test_config_singleton():
-    """Test that config instance is available."""
-    assert config is not None
-    assert hasattr(config, "DATABASE_URL")
+def test_config_class_attributes():
+    """Test that config is accessible via class attributes."""
+    assert hasattr(Config, "DATABASE_URL")
+    assert hasattr(Config, "DATA_DIR")
+    assert hasattr(Config, "LOG_LEVEL")
 
 
 def test_config_boolean_parsing():
