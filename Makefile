@@ -1,4 +1,4 @@
-.PHONY: help install dev lint format type-check test test-cov clean all check docs arch
+.PHONY: help install dev lint format type-check test test-cov clean all check docs arch branch pr
 
 # Default target
 help:
@@ -17,6 +17,11 @@ help:
 	@echo "Testing:"
 	@echo "  make test        Run tests"
 	@echo "  make test-cov    Run tests with coverage"
+	@echo ""
+	@echo "Git Workflow (AI agents MUST use these):"
+	@echo "  make branch NAME=feat/description  Create feature branch"
+	@echo "  make pr TITLE=\"...\" BODY=\"...\"     Create pull request"
+	@echo "  make sync        Sync current branch with main"
 	@echo ""
 	@echo "Documentation & Architecture:"
 	@echo "  make docs        Generate API documentation"
@@ -68,6 +73,49 @@ test-cov:
 
 test-fast:
 	uv run pytest -x -q
+
+# =============================================================================
+# Git Workflow (AI agents MUST use these)
+# =============================================================================
+
+# Create a new feature branch
+# Usage: make branch NAME=feat/my-feature
+# For AI agents: make branch NAME=copilot/feat/my-feature
+branch:
+ifndef NAME
+	$(error NAME is required. Usage: make branch NAME=feat/my-feature)
+endif
+	git checkout main
+	git pull origin main
+	git checkout -b $(NAME)
+	@echo "🌿 Created branch: $(NAME)"
+	@echo "📝 Don't forget to create a log entry: make log"
+
+# Sync current branch with main
+sync:
+	git fetch origin main
+	git rebase origin/main
+	@echo "🔄 Synced with main"
+
+# Create a pull request (requires gh CLI)
+# Usage: make pr TITLE="feat: my feature" BODY="Description"
+pr: check test
+ifndef TITLE
+	$(error TITLE is required. Usage: make pr TITLE="feat: description" BODY="Details")
+endif
+	git push -u origin HEAD
+	gh pr create --title "$(TITLE)" --body "$(BODY)"
+	@echo "🚀 Pull request created!"
+
+# Quick commit with conventional format
+# Usage: make commit MSG="feat(module): description"
+commit:
+ifndef MSG
+	$(error MSG is required. Usage: make commit MSG="feat(module): description")
+endif
+	git add -A
+	git commit -m "$(MSG)"
+	@echo "✅ Committed: $(MSG)"
 
 # =============================================================================
 # Documentation & Architecture

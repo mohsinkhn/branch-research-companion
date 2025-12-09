@@ -14,12 +14,19 @@ Before implementing ANY feature, ask: "Does this preserve the user's reading flo
 
 > **🚨 STOP! Before running ANY Python/test/lint command, use the Makefile!**
 > **🚨 ALWAYS use `uv` - NEVER use raw `pip` or `python` commands!**
+> **🚨 NEVER commit directly to main - ALWAYS create a branch and PR!**
 
 ### Essential Make Commands (USE THESE!)
 
 ```bash
 # SETUP (run first time)
 make dev              # Setup complete dev environment with uv
+
+# GIT WORKFLOW (REQUIRED for all work!)
+make branch NAME=copilot/feat/my-feature  # Create feature branch
+make commit MSG="feat(module): description"  # Commit changes
+make pr TITLE="feat: description" BODY="..."  # Create pull request
+make sync             # Sync branch with main
 
 # BEFORE EVERY COMMIT (required!)
 make check            # Run format + lint + type-check
@@ -43,6 +50,10 @@ make help             # Show all available commands
 
 ### ❌ NEVER DO THIS:
 ```bash
+# WRONG - Don't commit to main directly!
+git checkout main
+git commit -m "..."   # NO! Create a branch first!
+
 # WRONG - Don't use pip directly
 pip install something
 python -m pytest
@@ -125,18 +136,41 @@ AI agents should explicitly flag for human review:
 ## 🔴 MUST Rules (Never Violate)
 
 ### Code Quality
-1. **MUST** run `ruff check` before committing - zero errors allowed
-2. **MUST** run `ruff format` before committing - code must be formatted
-3. **MUST** run `mypy` before committing - type errors must be resolved
-4. **MUST** write tests for new functionality - no untested code
-5. **MUST** maintain >80% code coverage for new code
+1. **MUST** run `make check` before committing - zero errors allowed
+2. **MUST** run `make test` before committing - all tests must pass
+3. **MUST** write tests for new functionality - no untested code
+4. **MUST** maintain >80% code coverage for new code
 
-### Git Workflow
-1. **MUST** create atomic commits (one logical change per commit)
-2. **MUST** use conventional commit messages (feat:, fix:, docs:, refactor:, test:)
-3. **MUST** never force push to main
-4. **MUST** never delete other contributors' log files
-5. **MUST** create a log entry for each development session
+### Git Workflow - BRANCHING REQUIRED
+1. **MUST** create a feature branch for any work (NEVER commit directly to main)
+2. **MUST** use branch naming: `{contributor}/{type}/{description}`
+   - Examples: `copilot/feat/voice-capture`, `codex/fix/pdf-parsing`, `mohsin/refactor/models`
+3. **MUST** create a Pull Request when work is complete
+4. **MUST** wait for human approval before merging
+5. **MUST** create atomic commits (one logical change per commit)
+6. **MUST** use conventional commit messages (feat:, fix:, docs:, refactor:, test:)
+7. **MUST** never force push to any branch
+8. **MUST** never delete other contributors' log files
+9. **MUST** create a log entry for each development session
+
+### Branch Workflow Commands
+```bash
+# START of work session - create branch
+git checkout main
+git pull origin main
+git checkout -b copilot/feat/my-feature
+
+# DURING work - commit frequently
+git add -A
+git commit -m "feat(module): description"
+
+# END of work session - push and create PR
+git push -u origin copilot/feat/my-feature
+gh pr create --title "feat: description" --body "## Summary\n..."
+
+# Or use make command
+make pr TITLE="feat: my feature" BODY="Description here"
+```
 
 ### Documentation
 1. **MUST** add docstrings to all public functions/classes
