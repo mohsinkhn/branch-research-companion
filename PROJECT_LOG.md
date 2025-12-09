@@ -9,41 +9,41 @@ A reading-first system that helps users capture, defer, and develop ideas during
 
 ---
 
-## Phase 1: Project Setup & Infrastructure
+## Phase 1: Project Setup & Infrastructure ✅
 
 ### 1.1 Repository Setup
-- [ ] Initialize Git repository
-- [ ] Create GitHub repository (branch-research-companion)
+- [x] Initialize Git repository
+- [x] Create GitHub repository (branch-research-companion)
 - [ ] Setup branch protection rules
-- [ ] Create initial project structure
+- [x] Create initial project structure
 
 ### 1.2 Development Environment
 - [ ] Create Python virtual environment
-- [ ] Setup `pyproject.toml` with modern Python packaging
-- [ ] Configure development dependencies (pytest, black, ruff, mypy)
-- [ ] Setup pre-commit hooks
+- [x] Setup `pyproject.toml` with modern Python packaging
+- [x] Configure development dependencies (pytest, black, ruff, mypy)
+- [x] Setup pre-commit hooks
 - [ ] Create `.env.example` for environment variables
 
 ### 1.3 Project Structure
-- [ ] Create source directory structure
+- [x] Create source directory structure
 - [ ] Setup configuration management
-- [ ] Create initial README.md
-- [ ] Add LICENSE file
-- [ ] Create CONTRIBUTING.md
+- [x] Create initial README.md
+- [x] Add LICENSE file
+- [x] Create CONTRIBUTING.md
 
 ### 1.4 CI/CD Setup
-- [ ] GitHub Actions for testing
-- [ ] GitHub Actions for linting
-- [ ] Dependabot configuration
+- [x] GitHub Actions for testing
+- [x] GitHub Actions for linting
+- [x] Dependabot configuration
 
 ---
 
 ## Phase 2: Core Data Layer
 
 ### 2.1 Data Models
-- [ ] Document model
-- [ ] IdeaFragment model (content, anchor, timestamp, status)
-- [ ] BranchSession model
+- [x] Document model
+- [x] IdeaFragment model (content, anchor, timestamp, status)
+- [x] BranchSession model
 - [ ] Database schema design
 
 ### 2.2 Storage Layer
@@ -114,26 +114,21 @@ A reading-first system that helps users capture, defer, and develop ideas during
 
 ---
 
-## Development Sessions Log
+## Development Logs
 
-### Session 1 - December 9, 2025
-**Goal:** Project initialization and repository setup  
-**Chat Log:** `docs/dev-logs/session-001-project-setup.md`  
-**Status:** 🟡 In Progress
+📁 **Location:** `docs/dev-logs/YYYY/MM/DD/`
 
-**Completed:**
-- [ ] Reviewed PRD document
-- [ ] Created project log structure
-- [ ] ...
+### Contributors
+| ID | Name | Type |
+|----|------|------|
+| `copilot` | GitHub Copilot | AI Agent (VS Code) |
+| `codex` | Codex Agent | AI Agent (OpenAI) |
+| `mohsin` | Mohsin | Human Developer |
 
-**Decisions Made:**
-- Primary language: Python
-- ...
+### Recent Sessions
+- `2025/12/09/copilot-143000-project-setup.md` - Initial project setup ✅
 
-**Next Steps:**
-- Initialize git repository
-- Create GitHub repo
-- Setup Python environment
+📖 See `docs/dev-logs/README.md` for logging conventions.
 
 ---
 
@@ -141,13 +136,32 @@ A reading-first system that helps users capture, defer, and develop ideas during
 
 ### ADR-001: Primary Language Selection
 **Date:** December 9, 2025  
-**Status:** Proposed  
+**Status:** Accepted  
 **Context:** Need to choose primary development language  
 **Decision:** Python for backend/core logic  
 **Rationale:** 
 - User proficiency
 - Rich ecosystem for PDF handling, NLP, and AI
 - Fast prototyping capability
+
+### ADR-002: Logging System
+**Date:** December 9, 2025  
+**Status:** Accepted  
+**Context:** Need collaborative logging for multiple contributors (human + AI agents)  
+**Decision:** Date-based folder structure with contributor-prefixed files  
+**Rationale:**
+- Prevents merge conflicts (each contributor writes separate files)
+- Chronological organization by date
+- Timestamp in filename enables ordering within a day
+- Supports append-only workflow
+
+---
+
+## Resources & References
+
+- **PRD:** `Branch_PRD_Reading_First_Research_Companion.pdf`
+- **Repository:** https://github.com/mohsinkhn/branch-research-companion
+- **Dev Logs:** `docs/dev-logs/` (see README for conventions)
 
 ### ADR-002: Application Type (TBD)
 **Date:** TBD  
