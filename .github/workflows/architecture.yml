@@ -7,6 +7,10 @@ on:
       - 'src/**'
       - 'pyproject.toml'
 
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   generate-arch-docs:
     name: Generate Architecture Documentation

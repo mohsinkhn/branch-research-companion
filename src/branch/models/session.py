@@ -1,20 +1,19 @@
-"""
-BranchSession model.
+"""BranchSession model.
 
 A reading session that groups idea fragments captured during
 a single reading period.
 """
 
+from collections.abc import Callable
 from datetime import datetime
-from typing import Optional
+from typing import Any, ClassVar
 from uuid import UUID, uuid4
 
 from pydantic import BaseModel, Field
 
 
 class BranchSession(BaseModel):
-    """
-    A reading session in Branch.
+    """A reading session in Branch.
 
     Sessions group idea fragments captured during a single reading period.
     They help with context and review.
@@ -27,28 +26,28 @@ class BranchSession(BaseModel):
 
     # Session timing
     started_at: datetime = Field(default_factory=datetime.utcnow)
-    ended_at: Optional[datetime] = None
+    ended_at: datetime | None = None
 
     # Reading context
     start_page: int = 1
-    end_page: Optional[int] = None
+    end_page: int | None = None
 
     # Session stats
     fragments_captured: int = 0
     dive_deeps: int = 0  # How many times "Dive Deep" was used
 
     # Optional notes about the session
-    notes: Optional[str] = None
+    notes: str | None = None
 
     class Config:
         """Pydantic configuration."""
 
-        json_encoders = {
+        json_encoders: ClassVar[dict[type[Any], Callable[[Any], str]]] = {
             datetime: lambda v: v.isoformat(),
             UUID: lambda v: str(v),
         }
 
-    def end_session(self, end_page: Optional[int] = None) -> None:
+    def end_session(self, end_page: int | None = None) -> None:
         """End the reading session."""
         self.ended_at = datetime.utcnow()
         if end_page:
@@ -63,7 +62,7 @@ class BranchSession(BaseModel):
         self.dive_deeps += 1
 
     @property
-    def duration_minutes(self) -> Optional[float]:
+    def duration_minutes(self) -> float | None:
         """Get session duration in minutes."""
         if self.ended_at:
             delta = self.ended_at - self.started_at

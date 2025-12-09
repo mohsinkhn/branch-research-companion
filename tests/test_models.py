@@ -1,12 +1,11 @@
 """Tests for Branch data models."""
 
-import pytest
 from datetime import datetime
-from uuid import UUID
+from uuid import UUID, uuid4
 
-from branch.models import IdeaFragment, FragmentStatus, Document, BranchSession
-from branch.models.idea_fragment import TextAnchor
+from branch.models import BranchSession, Document, FragmentStatus, IdeaFragment
 from branch.models.document import DocumentType
+from branch.models.idea_fragment import TextAnchor
 
 
 class TestIdeaFragment:
@@ -28,11 +27,10 @@ class TestIdeaFragment:
             page_number=42,
             start_position=100,
             end_position=150,
-            selected_text="key insight here"
+            selected_text="key insight here",
         )
         fragment = IdeaFragment(
-            content="This relates to my previous research",
-            anchor=anchor
+            content="This relates to my previous research", anchor=anchor
         )
 
         assert fragment.anchor is not None
@@ -96,7 +94,6 @@ class TestBranchSession:
 
     def test_create_session(self):
         """Test creating a reading session."""
-        from uuid import uuid4
         doc_id = uuid4()
 
         session = BranchSession(document_id=doc_id)
@@ -107,7 +104,6 @@ class TestBranchSession:
 
     def test_end_session(self):
         """Test ending a session."""
-        from uuid import uuid4
         session = BranchSession(document_id=uuid4())
         session.end_session(end_page=50)
 
@@ -117,7 +113,6 @@ class TestBranchSession:
 
     def test_record_captures(self):
         """Test recording captured fragments."""
-        from uuid import uuid4
         session = BranchSession(document_id=uuid4())
 
         session.record_capture()
@@ -128,7 +123,6 @@ class TestBranchSession:
 
     def test_record_dive_deeps(self):
         """Test recording dive deep actions."""
-        from uuid import uuid4
         session = BranchSession(document_id=uuid4())
 
         session.record_dive_deep()

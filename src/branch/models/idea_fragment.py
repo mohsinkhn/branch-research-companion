@@ -1,5 +1,4 @@
-"""
-IdeaFragment model - the core concept of Branch.
+"""IdeaFragment model - the core concept of Branch.
 
 An Idea Fragment is a spontaneous hypothesis, comparison, or insight
 captured mid-reading. It is:
@@ -8,9 +7,10 @@ captured mid-reading. It is:
 - Stored without forced structure
 """
 
+from collections.abc import Callable
 from datetime import datetime
 from enum import Enum
-from typing import Optional
+from typing import Any, ClassVar
 from uuid import UUID, uuid4
 
 from pydantic import BaseModel, Field
@@ -29,15 +29,14 @@ class FragmentStatus(str, Enum):
 class TextAnchor(BaseModel):
     """Anchor point within a document for an idea fragment."""
 
-    page_number: Optional[int] = None
-    start_position: Optional[int] = None  # Character offset
-    end_position: Optional[int] = None
-    selected_text: Optional[str] = None  # The highlighted/selected text
+    page_number: int | None = None
+    start_position: int | None = None  # Character offset
+    end_position: int | None = None
+    selected_text: str | None = None  # The highlighted/selected text
 
 
 class IdeaFragment(BaseModel):
-    """
-    A spontaneous idea captured during reading.
+    """A spontaneous idea captured during reading.
 
     This is the first-class citizen of Branch. Ideas are captured quickly
     without forced organization, preserving reading flow.
@@ -49,17 +48,17 @@ class IdeaFragment(BaseModel):
     content: str
 
     # Where in the document this idea was captured
-    anchor: Optional[TextAnchor] = None
+    anchor: TextAnchor | None = None
 
     # Reference to the source document
-    document_id: Optional[UUID] = None
+    document_id: UUID | None = None
 
     # Reference to the reading session
-    session_id: Optional[UUID] = None
+    session_id: UUID | None = None
 
     # Timestamps
     captured_at: datetime = Field(default_factory=datetime.utcnow)
-    updated_at: Optional[datetime] = None
+    updated_at: datetime | None = None
 
     # Status in the Branch Buffer
     status: FragmentStatus = FragmentStatus.CAPTURED
@@ -68,12 +67,12 @@ class IdeaFragment(BaseModel):
     capture_type: str = "text"  # "text", "voice", "stylus"
 
     # Optional: light resolution notes (from "Resolve Lightly" action)
-    resolution_note: Optional[str] = None
+    resolution_note: str | None = None
 
     class Config:
         """Pydantic configuration."""
 
-        json_encoders = {
+        json_encoders: ClassVar[dict[type[Any], Callable[[Any], str]]] = {
             datetime: lambda v: v.isoformat(),
             UUID: lambda v: str(v),
         }
