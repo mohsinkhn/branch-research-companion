@@ -1,0 +1,92 @@
+# Branch - Reading-First Research Companion
+
+> If a feature harms reading flow or suppresses idea emergence, it must be rejected.
+
+A reading-first system that helps users safely capture, defer, and later develop ideas generated during reading.
+
+## 🎯 Vision
+
+Branch exists to enable **idea-first reading without breaking flow**. While reading long, technical documents, users frequently generate ideas, hypotheses, and connections they want to explore. Existing tools force users to either interrupt reading or suppress curiosity. Branch solves this.
+
+## 🚀 Features (V1 Scope)
+
+- **Document-first reader** (PDF/text)
+- **Multi-modal idea capture** (text, voice, stylus)
+- **Idea Fragments** anchored to document context
+- **Branch Buffer** for post-reading review
+- **Lightweight local AI assistance** (optional)
+
+## 📖 Core Concept: Idea Fragment
+
+An Idea Fragment is a spontaneous hypothesis, comparison, or insight captured mid-reading:
+- Anchored to document context
+- Allowed to be incomplete
+- Stored without forced structure
+
+## 🎮 Reading Interaction Model
+
+Only three actions during reading:
+1. **Capture Idea** - Quick, flow-preserving capture
+2. **Resolve Lightly** - Small clarifications without deep diving
+3. **Dive Deep** - Explicit, intentional exploration
+
+## 🏗️ Project Status
+
+See [PROJECT_LOG.md](PROJECT_LOG.md) for detailed progress tracking.
+
+## 🛠️ Development
+
+### Prerequisites
+
+- Python 3.11+
+- [uv](https://github.com/astral-sh/uv) (recommended) or pip
+
+### Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/YOUR_USERNAME/branch-research-companion.git
+cd branch-research-companion
+
+# Create virtual environment
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# Install dependencies
+pip install -e ".[dev]"
+
+# Run tests
+pytest
+```
+
+### Project Structure
+
+```
+branch-research-companion/
+├── src/
+│   └── branch/
+│       ├── __init__.py
+│       ├── models/          # Data models
+│       ├── reader/          # Document reading
+│       ├── capture/         # Idea capture
+│       ├── buffer/          # Branch Buffer
+│       └── storage/         # Persistence
+├── tests/
+├── docs/
+│   ├── dev-logs/           # Development session logs
+│   └── copilot-chats/      # AI assistant conversation logs
+├── pyproject.toml
+└── PROJECT_LOG.md
+```
+
+## 📄 License
+
+MIT License - See [LICENSE](LICENSE)
+
+## 🤝 Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+---
+
+*Built for thinkers who read deeply and think originally.*
