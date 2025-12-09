@@ -10,13 +10,8 @@ from typing import TYPE_CHECKING
 
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable, Sequence
-else:
-    Iterable = Sequence = object
-
-
-if TYPE_CHECKING:
     import sqlite3
+    from collections.abc import Iterable, Sequence
 
 
 SCHEMA_VERSION = 1
@@ -116,7 +111,7 @@ def apply_schema(connection: sqlite3.Connection) -> None:
     connection.commit()
 
 
-def current_schema_objects() -> dict[str, Iterable[str]]:
+def current_schema_objects() -> dict[str, Iterable[str] | tuple[int, ...]]:
     """Provide a simple view of the schema objects for debugging and documentation.
 
     Returns a mapping containing the DDL for tables and indexes.
@@ -124,5 +119,5 @@ def current_schema_objects() -> dict[str, Iterable[str]]:
     return {
         "tables": CREATE_TABLE_STATEMENTS,
         "indexes": CREATE_INDEX_STATEMENTS,
-        "version": (str(SCHEMA_VERSION),),
+        "version": (SCHEMA_VERSION,),
     }
