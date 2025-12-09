@@ -2,37 +2,51 @@
 
 Thank you for your interest in contributing! This document provides guidelines and information for contributors.
 
+> **Important:** AI agents should also read `AGENTS.md` for detailed development guidelines.
+
 ## Development Setup
 
 ### Prerequisites
 
 - Python 3.11 or higher
+- [uv](https://docs.astral.sh/uv/) (recommended) - Fast Python package manager
 - Git
 - A GitHub account
 
-### Local Development
+### Quick Setup with uv (Recommended)
 
-1. **Fork and clone the repository**
-   ```bash
-   git clone https://github.com/YOUR_USERNAME/branch-research-companion.git
-   cd branch-research-companion
-   ```
+```bash
+# Install uv
+curl -LsSf https://astral.sh/uv/install.sh | sh
 
-2. **Create a virtual environment**
-   ```bash
-   python -m venv .venv
-   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-   ```
+# Fork and clone the repository
+git clone https://github.com/YOUR_USERNAME/branch-research-companion.git
+cd branch-research-companion
 
-3. **Install development dependencies**
-   ```bash
-   pip install -e ".[dev]"
-   ```
+# Setup environment (uv handles everything)
+uv sync
 
-4. **Install pre-commit hooks**
-   ```bash
-   pre-commit install
-   ```
+# Install pre-commit hooks
+uv run pre-commit install
+```
+
+### Alternative Setup with pip
+
+```bash
+# Fork and clone the repository
+git clone https://github.com/YOUR_USERNAME/branch-research-companion.git
+cd branch-research-companion
+
+# Create a virtual environment
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# Install development dependencies
+pip install -e ".[dev]"
+
+# Install pre-commit hooks
+pre-commit install
+```
 
 ## Development Workflow
 
@@ -53,29 +67,37 @@ Follow conventional commits:
 
 ### Code Style
 
-This project uses:
-- **Black** for code formatting
-- **Ruff** for linting
-- **MyPy** for type checking
+This project uses **Ruff** for both linting and formatting (replaces black, isort, flake8).
 
 Run all checks:
 ```bash
-black src tests
-ruff check src tests
-mypy src
+# Format code
+uv run ruff format src tests
+
+# Lint code (with auto-fix)
+uv run ruff check src tests --fix
+
+# Type check
+uv run mypy src
+
+# Or run all at once
+uv run ruff format src tests && uv run ruff check src tests && uv run mypy src
 ```
 
 ### Testing
 
 ```bash
 # Run all tests
-pytest
+uv run pytest
 
 # Run with coverage
-pytest --cov=src/branch
+uv run pytest --cov=src/branch --cov-report=html
 
 # Run specific test file
-pytest tests/test_models.py
+uv run pytest tests/test_models.py -v
+
+# Run tests in parallel
+uv run pytest -n auto
 ```
 
 ## Project Philosophy
@@ -96,7 +118,7 @@ When contributing, keep in mind the **North-Star Rule**:
 
 1. Update documentation for any new features
 2. Add tests for new functionality
-3. Ensure all tests pass
+3. Ensure all checks pass: `uv run ruff format src tests && uv run ruff check src tests && uv run mypy src && uv run pytest`
 4. Update the changelog if applicable
 5. Request review from maintainers
 

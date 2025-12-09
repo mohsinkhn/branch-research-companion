@@ -39,13 +39,36 @@ See [PROJECT_LOG.md](PROJECT_LOG.md) for detailed progress tracking.
 ### Prerequisites
 
 - Python 3.11+
-- [uv](https://github.com/astral-sh/uv) (recommended) or pip
+- [uv](https://docs.astral.sh/uv/) (recommended) - Fast Python package manager
 
-### Setup
+### Quick Setup with uv (Recommended)
+
+```bash
+# Install uv (if not installed)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Clone the repository
+git clone https://github.com/mohsinkhn/branch-research-companion.git
+cd branch-research-companion
+
+# Setup environment and install dependencies (uv handles everything)
+uv sync
+
+# Install pre-commit hooks
+uv run pre-commit install
+
+# Run tests
+uv run pytest
+
+# Run all checks (format, lint, type-check, test)
+uv run ruff format src tests && uv run ruff check src tests && uv run mypy src && uv run pytest
+```
+
+### Alternative Setup with pip
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/branch-research-companion.git
+git clone https://github.com/mohsinkhn/branch-research-companion.git
 cd branch-research-companion
 
 # Create virtual environment
@@ -55,8 +78,33 @@ source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 # Install dependencies
 pip install -e ".[dev]"
 
+# Install pre-commit hooks
+pre-commit install
+
 # Run tests
 pytest
+```
+
+### Development Commands
+
+```bash
+# Format code
+uv run ruff format src tests
+
+# Lint code (with auto-fix)
+uv run ruff check src tests --fix
+
+# Type check
+uv run mypy src
+
+# Run tests
+uv run pytest
+
+# Run tests with coverage
+uv run pytest --cov=src/branch --cov-report=html
+
+# Run all checks before commit
+uv run ruff format src tests && uv run ruff check src tests && uv run mypy src && uv run pytest
 ```
 
 ### Project Structure
