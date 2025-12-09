@@ -8,9 +8,9 @@ from branch.config import Config, config
 
 def test_config_defaults():
     """Test that config loads with default values."""
-    assert os.getenv(
-        "DATABASE_URL", "sqlite:///./data/branch.db"
-    ) == Config.DATABASE_URL
+    assert (
+        os.getenv("DATABASE_URL", "sqlite:///./data/branch.db") == Config.DATABASE_URL
+    )
     assert isinstance(Config.DATA_DIR, Path)
     assert Config.LOG_LEVEL in ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
 

@@ -78,14 +78,12 @@ CREATE_TABLE_STATEMENTS: Sequence[str] = (
 )
 
 CREATE_INDEX_STATEMENTS: Sequence[str] = (
-    "CREATE INDEX IF NOT EXISTS "
-    "idx_sessions_document_id ON sessions(document_id);",
+    "CREATE INDEX IF NOT EXISTS idx_sessions_document_id ON sessions(document_id);",
     "CREATE INDEX IF NOT EXISTS "
     "idx_fragments_document_id ON idea_fragments(document_id);",
     "CREATE INDEX IF NOT EXISTS "
     "idx_fragments_session_id ON idea_fragments(session_id);",
-    "CREATE INDEX IF NOT EXISTS "
-    "idx_fragments_status ON idea_fragments(status);",
+    "CREATE INDEX IF NOT EXISTS idx_fragments_status ON idea_fragments(status);",
 )
 
 
@@ -107,7 +105,7 @@ def apply_schema(connection: sqlite3.Connection) -> None:
     connection.commit()
 
 
-def current_schema_objects() -> dict[str, Iterable[str]]:
+def current_schema_objects() -> dict[str, Iterable[str] | tuple[int, ...]]:
     """Provide a simple view of the schema objects for debugging and documentation.
 
     Returns a mapping containing the DDL for tables and indexes.
