@@ -11,10 +11,7 @@ def sample_fragment():
 
     return IdeaFragment(
         content="This is a test idea",
-        anchor=TextAnchor(
-            page_number=1,
-            selected_text="test text"
-        )
+        anchor=TextAnchor(page_number=1, selected_text="test text"),
     )
 
 
@@ -23,10 +20,7 @@ def sample_document():
     """Create a sample document for testing."""
     from branch.models import Document
 
-    return Document(
-        title="Test Document",
-        page_count=100
-    )
+    return Document(title="Test Document", page_count=100)
 
 
 @pytest.fixture

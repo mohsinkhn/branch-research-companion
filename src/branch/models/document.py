@@ -1,5 +1,4 @@
-"""
-Document model for Branch.
+"""Document model for Branch.
 
 Represents a document being read (PDF, text, markdown, etc.)
 """
@@ -7,7 +6,6 @@ Represents a document being read (PDF, text, markdown, etc.)
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import Optional
 from uuid import UUID, uuid4
 
 from pydantic import BaseModel, Field
@@ -23,8 +21,7 @@ class DocumentType(str, Enum):
 
 
 class Document(BaseModel):
-    """
-    A document that can be read in Branch.
+    """A document that can be read in Branch.
 
     Documents are the context for reading sessions and the anchors
     for idea fragments.
@@ -34,17 +31,17 @@ class Document(BaseModel):
 
     # Document identification
     title: str
-    file_path: Optional[Path] = None
-    url: Optional[str] = None
+    file_path: Path | None = None
+    url: str | None = None
 
     # Document metadata
     document_type: DocumentType = DocumentType.PDF
-    page_count: Optional[int] = None
-    author: Optional[str] = None
+    page_count: int | None = None
+    author: str | None = None
 
     # Timestamps
     added_at: datetime = Field(default_factory=datetime.utcnow)
-    last_opened_at: Optional[datetime] = None
+    last_opened_at: datetime | None = None
 
     # Reading progress
     last_page: int = 1
