@@ -4,7 +4,9 @@ A reading session that groups idea fragments captured during
 a single reading period.
 """
 
+from collections.abc import Callable
 from datetime import datetime
+from typing import Any, ClassVar
 from uuid import UUID, uuid4
 
 from pydantic import BaseModel, Field
@@ -40,7 +42,7 @@ class BranchSession(BaseModel):
     class Config:
         """Pydantic configuration."""
 
-        json_encoders = {
+        json_encoders: ClassVar[dict[type[Any], Callable[[Any], str]]] = {
             datetime: lambda v: v.isoformat(),
             UUID: lambda v: str(v),
         }

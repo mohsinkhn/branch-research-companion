@@ -1,4 +1,4 @@
-"""Branch - Reading-First Research Companion
+"""Branch - Reading-First Research Companion.
 
 A reading-first system that helps users safely capture, defer,
 and later develop ideas generated during reading.

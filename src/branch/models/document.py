@@ -3,9 +3,11 @@
 Represents a document being read (PDF, text, markdown, etc.)
 """
 
+from collections.abc import Callable
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
+from typing import Any, ClassVar
 from uuid import UUID, uuid4
 
 from pydantic import BaseModel, Field
@@ -50,7 +52,7 @@ class Document(BaseModel):
     class Config:
         """Pydantic configuration."""
 
-        json_encoders = {
+        json_encoders: ClassVar[dict[type[Any], Callable[[Any], str]]] = {
             datetime: lambda v: v.isoformat(),
             UUID: lambda v: str(v),
             Path: lambda v: str(v),

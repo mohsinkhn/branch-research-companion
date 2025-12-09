@@ -3,32 +3,26 @@
 import os
 from pathlib import Path
 
-import pytest
+from branch.config import Config, config
 
 
 def test_config_defaults():
     """Test that config loads with default values."""
-    from branch.config import Config
-
-    assert Config.DATABASE_URL == os.getenv(
+    assert os.getenv(
         "DATABASE_URL", "sqlite:///./data/branch.db"
-    )
+    ) == Config.DATABASE_URL
     assert isinstance(Config.DATA_DIR, Path)
     assert Config.LOG_LEVEL in ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
 
 
 def test_config_singleton():
     """Test that config instance is available."""
-    from branch.config import config
-
     assert config is not None
     assert hasattr(config, "DATABASE_URL")
 
 
 def test_config_boolean_parsing():
     """Test boolean environment variable parsing."""
-    from branch.config import Config
-
     assert isinstance(Config.ENABLE_AI_FEATURES, bool)
     assert isinstance(Config.ENABLE_VOICE_CAPTURE, bool)
     assert isinstance(Config.DEBUG, bool)
@@ -37,8 +31,6 @@ def test_config_boolean_parsing():
 
 def test_config_ensure_directories(tmp_path, monkeypatch):
     """Test directory creation."""
-    from branch.config import Config
-
     # Set temporary paths
     test_data_dir = tmp_path / "data"
     test_log_file = tmp_path / "logs" / "test.log"

@@ -7,8 +7,10 @@ captured mid-reading. It is:
 - Stored without forced structure
 """
 
+from collections.abc import Callable
 from datetime import datetime
 from enum import Enum
+from typing import Any, ClassVar
 from uuid import UUID, uuid4
 
 from pydantic import BaseModel, Field
@@ -70,7 +72,7 @@ class IdeaFragment(BaseModel):
     class Config:
         """Pydantic configuration."""
 
-        json_encoders = {
+        json_encoders: ClassVar[dict[type[Any], Callable[[Any], str]]] = {
             datetime: lambda v: v.isoformat(),
             UUID: lambda v: str(v),
         }
