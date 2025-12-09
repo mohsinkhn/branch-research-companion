@@ -1,0 +1,209 @@
+{
+  "generated_at": "2025-12-09T18:24:15.153814",
+  "project": "branch-research-companion",
+  "modules": [
+    {
+      "path": "src/branch/__init__.py",
+      "classes": [],
+      "functions": [],
+      "imports": [
+        "branch.models.idea_fragment",
+        "branch.models.document",
+        "branch.models.session"
+      ],
+      "docstring": "Branch - Reading-First Research Companion\n\nA reading-first system that helps users safely capture, defer,\nand later develop ideas generated during reading.",
+      "lines": 20
+    },
+    {
+      "path": "src/branch/cli.py",
+      "classes": [],
+      "functions": [
+        {
+          "name": "main",
+          "docstring": "Main entry point for the CLI.",
+          "line": 4,
+          "args": []
+        }
+      ],
+      "imports": [],
+      "docstring": "Command-line interface for Branch.",
+      "lines": 13
+    },
+    {
+      "path": "src/branch/reader/__init__.py",
+      "classes": [],
+      "functions": [],
+      "imports": [],
+      "docstring": "Document reader module for Branch.",
+      "lines": 1
+    },
+    {
+      "path": "src/branch/capture/__init__.py",
+      "classes": [],
+      "functions": [],
+      "imports": [],
+      "docstring": "Idea capture module for Branch.",
+      "lines": 1
+    },
+    {
+      "path": "src/branch/models/idea_fragment.py",
+      "classes": [
+        {
+          "name": "FragmentStatus",
+          "methods": [],
+          "docstring": "Status of an idea fragment in the Branch Buffer.",
+          "line": 19
+        },
+        {
+          "name": "TextAnchor",
+          "methods": [],
+          "docstring": "Anchor point within a document for an idea fragment.",
+          "line": 29
+        },
+        {
+          "name": "IdeaFragment",
+          "methods": [
+            "resolve_lightly",
+            "mark_reviewed",
+            "develop",
+            "archive",
+            "discard"
+          ],
+          "docstring": "A spontaneous idea captured during reading.\n\nThis is the first-class citizen of Branch. Ideas are captured quickly\nwithout forced organization, preserving reading flow.",
+          "line": 38
+        },
+        {
+          "name": "Config",
+          "methods": [],
+          "docstring": "Pydantic configuration.",
+          "line": 73
+        }
+      ],
+      "functions": [],
+      "imports": [
+        "datetime",
+        "enum",
+        "typing",
+        "uuid",
+        "pydantic"
+      ],
+      "docstring": "IdeaFragment model - the core concept of Branch.\n\nAn Idea Fragment is a spontaneous hypothesis, comparison, or insight\ncaptured mid-reading. It is:\n- Anchored to document context\n- Allowed to be incomplete\n- Stored without forced structure",
+      "lines": 104
+    },
+    {
+      "path": "src/branch/models/session.py",
+      "classes": [
+        {
+          "name": "BranchSession",
+          "methods": [
+            "end_session",
+            "record_capture",
+            "record_dive_deep",
+            "duration_minutes",
+            "is_active"
+          ],
+          "docstring": "A reading session in Branch.\n\nSessions group idea fragments captured during a single reading period.\nThey help with context and review.",
+          "line": 15
+        },
+        {
+          "name": "Config",
+          "methods": [],
+          "docstring": "Pydantic configuration.",
+          "line": 43
+        }
+      ],
+      "functions": [],
+      "imports": [
+        "datetime",
+        "typing",
+        "uuid",
+        "pydantic"
+      ],
+      "docstring": "BranchSession model.\n\nA reading session that groups idea fragments captured during\na single reading period.",
+      "lines": 76
+    },
+    {
+      "path": "src/branch/models/__init__.py",
+      "classes": [],
+      "functions": [],
+      "imports": [
+        "branch.models.idea_fragment",
+        "branch.models.document",
+        "branch.models.session"
+      ],
+      "docstring": "Data models for Branch.",
+      "lines": 12
+    },
+    {
+      "path": "src/branch/models/document.py",
+      "classes": [
+        {
+          "name": "DocumentType",
+          "methods": [],
+          "docstring": "Supported document types.",
+          "line": 16
+        },
+        {
+          "name": "Document",
+          "methods": [
+            "update_progress",
+            "from_file"
+          ],
+          "docstring": "A document that can be read in Branch.\n\nDocuments are the context for reading sessions and the anchors\nfor idea fragments.",
+          "line": 25
+        },
+        {
+          "name": "Config",
+          "methods": [],
+          "docstring": "Pydantic configuration.",
+          "line": 53
+        }
+      ],
+      "functions": [],
+      "imports": [
+        "datetime",
+        "enum",
+        "pathlib",
+        "typing",
+        "uuid",
+        "pydantic"
+      ],
+      "docstring": "Document model for Branch.\n\nRepresents a document being read (PDF, text, markdown, etc.)",
+      "lines": 85
+    },
+    {
+      "path": "src/branch/storage/__init__.py",
+      "classes": [],
+      "functions": [],
+      "imports": [],
+      "docstring": "Storage and persistence module for Branch.",
+      "lines": 1
+    },
+    {
+      "path": "src/branch/buffer/__init__.py",
+      "classes": [],
+      "functions": [],
+      "imports": [],
+      "docstring": "Branch Buffer module - post-reading review system.",
+      "lines": 1
+    }
+  ],
+  "dependencies": {
+    "src.branch": [
+      "branch.models.idea_fragment",
+      "branch.models.document",
+      "branch.models.session"
+    ],
+    "src.branch.models": [
+      "branch.models.idea_fragment",
+      "branch.models.document",
+      "branch.models.session"
+    ]
+  },
+  "stats": {
+    "total_files": 10,
+    "total_lines": 314,
+    "total_classes": 9,
+    "total_functions": 1
+  }
+}
