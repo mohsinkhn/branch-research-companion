@@ -104,7 +104,10 @@ src/branch/
 │   └── __init__.py          [PLACEHOLDER]
 │
 └── storage/                 [PERSISTENCE]
-    └── __init__.py          [PLACEHOLDER]
+    ├── __init__.py          [EXPORTS: schema + connection helpers]
+    ├── repository.py        [INTERFACE: BranchRepository, StorageError]
+    ├── schema.py            [DDL: apply_schema, SCHEMA_VERSION]
+    └── sqlite.py            [HELPERS: connect, initialize]
 ```
 
 ### File Responsibilities
@@ -116,6 +119,9 @@ Each file should have a single, clear responsibility:
 | `models/idea_fragment.py` | Idea data structure | `IdeaFragment`, `FragmentStatus`, `TextAnchor` |
 | `models/document.py` | Document metadata | `Document`, `DocumentType` |
 | `models/session.py` | Reading session tracking | `BranchSession` |
+| `storage/schema.py` | SQLite DDL definitions & versioning | `SCHEMA_VERSION`, `apply_schema`, `current_schema_objects` |
+| `storage/sqlite.py` | SQLite connection helpers | `connect`, `initialize` |
+| `storage/repository.py` | Storage protocol for persistence backends | `BranchRepository`, `StorageError` |
 
 ---
 

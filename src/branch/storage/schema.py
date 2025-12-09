@@ -32,9 +32,7 @@ CREATE_TABLE_STATEMENTS: Sequence[str] = (
         last_opened_at TEXT,
         last_page INTEGER NOT NULL DEFAULT 1 CHECK (last_page >= 1),
         read_percentage REAL NOT NULL DEFAULT 0.0
-            CHECK (
-                read_percentage >= 0.0 AND read_percentage <= 100.0
-            )
+            CHECK (read_percentage >= 0.0 AND read_percentage <= 100.0)
     );
     """,
     """
@@ -67,9 +65,7 @@ CREATE_TABLE_STATEMENTS: Sequence[str] = (
         updated_at TEXT,
         status TEXT NOT NULL DEFAULT 'captured'
             CHECK (
-                status IN (
-                    'captured', 'reviewed', 'developed', 'archived', 'discarded'
-                )
+                status IN ('captured', 'reviewed', 'developed', 'archived', 'discarded')
             ),
         capture_type TEXT NOT NULL DEFAULT 'text',
         resolution_note TEXT
@@ -78,12 +74,22 @@ CREATE_TABLE_STATEMENTS: Sequence[str] = (
 )
 
 CREATE_INDEX_STATEMENTS: Sequence[str] = (
-    "CREATE INDEX IF NOT EXISTS idx_sessions_document_id ON sessions(document_id);",
-    "CREATE INDEX IF NOT EXISTS "
-    "idx_fragments_document_id ON idea_fragments(document_id);",
-    "CREATE INDEX IF NOT EXISTS "
-    "idx_fragments_session_id ON idea_fragments(session_id);",
-    "CREATE INDEX IF NOT EXISTS idx_fragments_status ON idea_fragments(status);",
+    """
+    CREATE INDEX IF NOT EXISTS idx_sessions_document_id
+    ON sessions(document_id);
+    """,
+    """
+    CREATE INDEX IF NOT EXISTS idx_fragments_document_id
+    ON idea_fragments(document_id);
+    """,
+    """
+    CREATE INDEX IF NOT EXISTS idx_fragments_session_id
+    ON idea_fragments(session_id);
+    """,
+    """
+    CREATE INDEX IF NOT EXISTS idx_fragments_status
+    ON idea_fragments(status);
+    """,
 )
 
 

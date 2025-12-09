@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-09T18:24:15.153814",
+  "generated_at": "2025-12-09T19:25:48.245271",
   "project": "branch-research-companion",
   "modules": [
     {
@@ -7,11 +7,11 @@
       "classes": [],
       "functions": [],
       "imports": [
-        "branch.models.idea_fragment",
         "branch.models.document",
+        "branch.models.idea_fragment",
         "branch.models.session"
       ],
-      "docstring": "Branch - Reading-First Research Companion\n\nA reading-first system that helps users safely capture, defer,\nand later develop ideas generated during reading.",
+      "docstring": "Branch - Reading-First Research Companion.\n\nA reading-first system that helps users safely capture, defer,\nand later develop ideas generated during reading.",
       "lines": 20
     },
     {
@@ -76,11 +76,12 @@
           "name": "Config",
           "methods": [],
           "docstring": "Pydantic configuration.",
-          "line": 73
+          "line": 72
         }
       ],
       "functions": [],
       "imports": [
+        "collections.abc",
         "datetime",
         "enum",
         "typing",
@@ -88,7 +89,7 @@
         "pydantic"
       ],
       "docstring": "IdeaFragment model - the core concept of Branch.\n\nAn Idea Fragment is a spontaneous hypothesis, comparison, or insight\ncaptured mid-reading. It is:\n- Anchored to document context\n- Allowed to be incomplete\n- Stored without forced structure",
-      "lines": 104
+      "lines": 103
     },
     {
       "path": "src/branch/models/session.py",
@@ -109,30 +110,31 @@
           "name": "Config",
           "methods": [],
           "docstring": "Pydantic configuration.",
-          "line": 43
+          "line": 42
         }
       ],
       "functions": [],
       "imports": [
+        "collections.abc",
         "datetime",
         "typing",
         "uuid",
         "pydantic"
       ],
       "docstring": "BranchSession model.\n\nA reading session that groups idea fragments captured during\na single reading period.",
-      "lines": 76
+      "lines": 75
     },
     {
       "path": "src/branch/models/__init__.py",
       "classes": [],
       "functions": [],
       "imports": [
-        "branch.models.idea_fragment",
         "branch.models.document",
+        "branch.models.idea_fragment",
         "branch.models.session"
       ],
       "docstring": "Data models for Branch.",
-      "lines": 12
+      "lines": 13
     },
     {
       "path": "src/branch/models/document.py",
@@ -156,11 +158,12 @@
           "name": "Config",
           "methods": [],
           "docstring": "Pydantic configuration.",
-          "line": 53
+          "line": 52
         }
       ],
       "functions": [],
       "imports": [
+        "collections.abc",
         "datetime",
         "enum",
         "pathlib",
@@ -169,15 +172,112 @@
         "pydantic"
       ],
       "docstring": "Document model for Branch.\n\nRepresents a document being read (PDF, text, markdown, etc.)",
-      "lines": 85
+      "lines": 84
     },
     {
       "path": "src/branch/storage/__init__.py",
       "classes": [],
       "functions": [],
-      "imports": [],
+      "imports": [
+        "branch.storage.repository",
+        "branch.storage.schema",
+        "branch.storage.sqlite"
+      ],
       "docstring": "Storage and persistence module for Branch.",
-      "lines": 1
+      "lines": 16
+    },
+    {
+      "path": "src/branch/storage/sqlite.py",
+      "classes": [],
+      "functions": [
+        {
+          "name": "connect",
+          "docstring": "Create a SQLite connection with sane defaults for Branch.\n\n- Enables foreign key enforcement\n- Uses row factory for dict-style access",
+          "line": 18,
+          "args": [
+            "database"
+          ]
+        },
+        {
+          "name": "initialize",
+          "docstring": "Connect to SQLite and ensure the Branch schema exists.\n\nReturns the open connection for immediate use.",
+          "line": 30,
+          "args": [
+            "database"
+          ]
+        }
+      ],
+      "imports": [
+        "__future__",
+        "sqlite3",
+        "pathlib",
+        "branch.storage.schema"
+      ],
+      "docstring": "SQLite helpers for Branch storage.\n\nConnections created here enable foreign key enforcement and expose a helper\nto apply the current schema.",
+      "lines": 37
+    },
+    {
+      "path": "src/branch/storage/repository.py",
+      "classes": [
+        {
+          "name": "StorageError",
+          "methods": [],
+          "docstring": "Base exception for storage-related failures.",
+          "line": 19
+        },
+        {
+          "name": "BranchRepository",
+          "methods": [
+            "upsert_document",
+            "get_document",
+            "upsert_session",
+            "get_session",
+            "upsert_fragment",
+            "get_fragment",
+            "list_fragments_for_document"
+          ],
+          "docstring": "Abstract interface for Branch storage backends.",
+          "line": 23
+        }
+      ],
+      "functions": [],
+      "imports": [
+        "__future__",
+        "typing",
+        "collections.abc",
+        "uuid",
+        "branch.models"
+      ],
+      "docstring": "Repository interfaces for Branch storage.\n\nConcrete implementations should translate between Pydantic models and the\nunderlying persistence layer while keeping read flow latency low.",
+      "lines": 45
+    },
+    {
+      "path": "src/branch/storage/schema.py",
+      "classes": [],
+      "functions": [
+        {
+          "name": "apply_schema",
+          "docstring": "Create all tables and indexes for the current schema version.\n\nPRAGMAs are set to enforce foreign keys, and `user_version` is recorded\nto support future migrations.",
+          "line": 101,
+          "args": [
+            "connection"
+          ]
+        },
+        {
+          "name": "current_schema_objects",
+          "docstring": "Provide a simple view of the schema objects for debugging and documentation.\n\nReturns a mapping containing the DDL for tables and indexes.",
+          "line": 119,
+          "args": []
+        }
+      ],
+      "imports": [
+        "__future__",
+        "typing",
+        "collections.abc",
+        "sqlite3"
+      ],
+      "docstring": "SQLite schema definitions for Branch storage.\n\nThe schema is intentionally minimal: it persists documents, reading sessions,\nand idea fragments while keeping user-facing reading flow unchanged.",
+      "lines": 128
     },
     {
       "path": "src/branch/buffer/__init__.py",
@@ -190,20 +290,31 @@
   ],
   "dependencies": {
     "src.branch": [
-      "branch.models.idea_fragment",
       "branch.models.document",
+      "branch.models.idea_fragment",
       "branch.models.session"
     ],
     "src.branch.models": [
-      "branch.models.idea_fragment",
       "branch.models.document",
+      "branch.models.idea_fragment",
       "branch.models.session"
+    ],
+    "src.branch.storage": [
+      "branch.storage.repository",
+      "branch.storage.schema",
+      "branch.storage.sqlite"
+    ],
+    "src.branch.storage.sqlite": [
+      "branch.storage.schema"
+    ],
+    "src.branch.storage.repository": [
+      "branch.models"
     ]
   },
   "stats": {
-    "total_files": 10,
-    "total_lines": 314,
-    "total_classes": 9,
-    "total_functions": 1
+    "total_files": 13,
+    "total_lines": 537,
+    "total_classes": 11,
+    "total_functions": 5
   }
 }

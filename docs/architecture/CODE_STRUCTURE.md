@@ -1,6 +1,6 @@
 # Code Architecture - Auto-Generated
 
-> **Generated:** 2025-12-09 18:24:15
+> **Generated:** 2025-12-09 19:25:48
 > **Generator:** `scripts/generate_arch_docs.py`
 
 This document is automatically generated. Do not edit manually.
@@ -23,7 +23,10 @@ For the human-maintained architecture guide, see [ARCHITECTURE.md](ARCHITECTURE.
 ├── reader/
 │   └── __init__.py
 ├── storage/
-│   └── __init__.py
+│   ├── __init__.py
+│   ├── repository.py
+│   ├── schema.py
+│   └── sqlite.py
 ├── __init__.py
 └── cli.py
 ```
@@ -34,16 +37,19 @@ For the human-maintained architecture guide, see [ARCHITECTURE.md](ARCHITECTURE.
 
 | File | Lines | Classes | Functions | Description |
 |------|-------|---------|-----------|-------------|
-| `src/branch/__init__.py` | 20 | - | - | Branch - Reading-First Research Companion |
+| `src/branch/__init__.py` | 20 | - | - | Branch - Reading-First Research Companion. |
 | `src/branch/buffer/__init__.py` | 1 | - | - | Branch Buffer module - post-reading review system. |
 | `src/branch/capture/__init__.py` | 1 | - | - | Idea capture module for Branch. |
 | `src/branch/cli.py` | 13 | - | main | Command-line interface for Branch. |
-| `src/branch/models/__init__.py` | 12 | - | - | Data models for Branch. |
-| `src/branch/models/document.py` | 85 | DocumentType, Document, Config | - | Document model for Branch. |
-| `src/branch/models/idea_fragment.py` | 104 | FragmentStatus, TextAnchor, IdeaFragment, Config | - | IdeaFragment model - the core concept of Branch. |
-| `src/branch/models/session.py` | 76 | BranchSession, Config | - | BranchSession model. |
+| `src/branch/models/__init__.py` | 13 | - | - | Data models for Branch. |
+| `src/branch/models/document.py` | 84 | DocumentType, Document, Config | - | Document model for Branch. |
+| `src/branch/models/idea_fragment.py` | 103 | FragmentStatus, TextAnchor, IdeaFragment, Config | - | IdeaFragment model - the core concept of Branch. |
+| `src/branch/models/session.py` | 75 | BranchSession, Config | - | BranchSession model. |
 | `src/branch/reader/__init__.py` | 1 | - | - | Document reader module for Branch. |
-| `src/branch/storage/__init__.py` | 1 | - | - | Storage and persistence module for Branch. |
+| `src/branch/storage/__init__.py` | 16 | - | - | Storage and persistence module for Branch. |
+| `src/branch/storage/repository.py` | 45 | StorageError, BranchRepository | - | Repository interfaces for Branch storage. |
+| `src/branch/storage/schema.py` | 128 | - | apply_schema, current_schema_objects | SQLite schema definitions for Branch storage. |
+| `src/branch/storage/sqlite.py` | 37 | - | connect, initialize | SQLite helpers for Branch storage. |
 
 ---
 
@@ -58,7 +64,7 @@ For the human-maintained architecture guide, see [ARCHITECTURE.md](ARCHITECTURE.
 > A document that can be read in Branch.
 - Methods: `update_progress`, `from_file`
 
-**Config** (line 53)
+**Config** (line 52)
 > Pydantic configuration.
 
 ### `src/branch/models/idea_fragment.py`
@@ -73,7 +79,7 @@ For the human-maintained architecture guide, see [ARCHITECTURE.md](ARCHITECTURE.
 > A spontaneous idea captured during reading.
 - Methods: `resolve_lightly`, `mark_reviewed`, `develop`, `archive`, `discard`
 
-**Config** (line 73)
+**Config** (line 72)
 > Pydantic configuration.
 
 ### `src/branch/models/session.py`
@@ -82,8 +88,17 @@ For the human-maintained architecture guide, see [ARCHITECTURE.md](ARCHITECTURE.
 > A reading session in Branch.
 - Methods: `end_session`, `record_capture`, `record_dive_deep`, `duration_minutes`, `is_active`
 
-**Config** (line 43)
+**Config** (line 42)
 > Pydantic configuration.
+
+### `src/branch/storage/repository.py`
+
+**StorageError** (line 19)
+> Base exception for storage-related failures.
+
+**BranchRepository** (line 23)
+> Abstract interface for Branch storage backends.
+- Methods: `upsert_document`, `get_document`, `upsert_session`, `get_session`, `upsert_fragment`, `get_fragment`, `list_fragments_for_document`
 
 
 ---
@@ -92,13 +107,21 @@ For the human-maintained architecture guide, see [ARCHITECTURE.md](ARCHITECTURE.
 
 ```
 src.branch
-  └── branch.models.idea_fragment
   └── branch.models.document
+  └── branch.models.idea_fragment
   └── branch.models.session
 src.branch.models
-  └── branch.models.idea_fragment
   └── branch.models.document
+  └── branch.models.idea_fragment
   └── branch.models.session
+src.branch.storage
+  └── branch.storage.repository
+  └── branch.storage.schema
+  └── branch.storage.sqlite
+src.branch.storage.repository
+  └── branch.models
+src.branch.storage.sqlite
+  └── branch.storage.schema
 ```
 
 ---
