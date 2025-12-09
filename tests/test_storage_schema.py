@@ -12,8 +12,11 @@ from branch.storage import SCHEMA_VERSION, apply_schema, initialize
 
 def _table_names(connection: sqlite3.Connection) -> set[str]:
     rows = connection.execute(
-        "SELECT name FROM sqlite_master "
-        "WHERE type='table' AND name NOT LIKE 'sqlite_%';"
+        """
+        SELECT name
+        FROM sqlite_master
+        WHERE type='table' AND name NOT LIKE 'sqlite_%';
+        """
     )
     return {row[0] for row in rows.fetchall()}
 
@@ -34,7 +37,7 @@ def test_apply_schema_creates_expected_tables():
 
 
 def test_foreign_keys_and_cascades():
-    """Schema enforces relationships and keeps fragments on parent removal."""
+    """Schema enforces relationships and keeps fragments when parents are removed."""
     connection = initialize(":memory:")
 
     document_id = str(uuid4())
@@ -68,8 +71,7 @@ def test_foreign_keys_and_cascades():
             (str(uuid4()), str(uuid4()), 1),
         )
 
-    # Deleting the document cascades to sessions,
-    # fragments keep content but drop anchors
+    # Document deletion removes sessions; fragments keep content but drop anchors
     connection.execute("DELETE FROM documents WHERE id = ?;", (document_id,))
     connection.commit()
 

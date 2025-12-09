@@ -10,8 +10,13 @@ from typing import TYPE_CHECKING
 
 
 if TYPE_CHECKING:
-    import sqlite3
     from collections.abc import Iterable, Sequence
+else:
+    Iterable = Sequence = object
+
+
+if TYPE_CHECKING:
+    import sqlite3
 
 
 SCHEMA_VERSION = 1
@@ -32,9 +37,7 @@ CREATE_TABLE_STATEMENTS: Sequence[str] = (
         last_opened_at TEXT,
         last_page INTEGER NOT NULL DEFAULT 1 CHECK (last_page >= 1),
         read_percentage REAL NOT NULL DEFAULT 0.0
-            CHECK (
-                read_percentage >= 0.0 AND read_percentage <= 100.0
-            )
+            CHECK (read_percentage >= 0.0 AND read_percentage <= 100.0)
     );
     """,
     """
@@ -67,9 +70,7 @@ CREATE_TABLE_STATEMENTS: Sequence[str] = (
         updated_at TEXT,
         status TEXT NOT NULL DEFAULT 'captured'
             CHECK (
-                status IN (
-                    'captured', 'reviewed', 'developed', 'archived', 'discarded'
-                )
+                status IN ('captured', 'reviewed', 'developed', 'archived', 'discarded')
             ),
         capture_type TEXT NOT NULL DEFAULT 'text',
         resolution_note TEXT
@@ -78,12 +79,22 @@ CREATE_TABLE_STATEMENTS: Sequence[str] = (
 )
 
 CREATE_INDEX_STATEMENTS: Sequence[str] = (
-    "CREATE INDEX IF NOT EXISTS idx_sessions_document_id ON sessions(document_id);",
-    "CREATE INDEX IF NOT EXISTS "
-    "idx_fragments_document_id ON idea_fragments(document_id);",
-    "CREATE INDEX IF NOT EXISTS "
-    "idx_fragments_session_id ON idea_fragments(session_id);",
-    "CREATE INDEX IF NOT EXISTS idx_fragments_status ON idea_fragments(status);",
+    """
+    CREATE INDEX IF NOT EXISTS idx_sessions_document_id
+    ON sessions(document_id);
+    """,
+    """
+    CREATE INDEX IF NOT EXISTS idx_fragments_document_id
+    ON idea_fragments(document_id);
+    """,
+    """
+    CREATE INDEX IF NOT EXISTS idx_fragments_session_id
+    ON idea_fragments(session_id);
+    """,
+    """
+    CREATE INDEX IF NOT EXISTS idx_fragments_status
+    ON idea_fragments(status);
+    """,
 )
 
 
@@ -105,7 +116,7 @@ def apply_schema(connection: sqlite3.Connection) -> None:
     connection.commit()
 
 
-def current_schema_objects() -> dict[str, Iterable[str] | tuple[int, ...]]:
+def current_schema_objects() -> dict[str, Iterable[str]]:
     """Provide a simple view of the schema objects for debugging and documentation.
 
     Returns a mapping containing the DDL for tables and indexes.
@@ -113,5 +124,5 @@ def current_schema_objects() -> dict[str, Iterable[str] | tuple[int, ...]]:
     return {
         "tables": CREATE_TABLE_STATEMENTS,
         "indexes": CREATE_INDEX_STATEMENTS,
-        "version": (SCHEMA_VERSION,),
+        "version": (str(SCHEMA_VERSION),),
     }

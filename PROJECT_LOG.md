@@ -3,8 +3,8 @@
 ## Project Overview
 A reading-first system that helps users capture, defer, and develop ideas during reading without breaking flow.
 
-**Started:** December 9, 2025  
-**Primary Language:** Python  
+**Started:** December 9, 2025
+**Primary Language:** Python
 **Status:** 🟡 In Progress
 
 ---
@@ -44,7 +44,7 @@ A reading-first system that helps users capture, defer, and develop ideas during
 - [x] Document model
 - [x] IdeaFragment model (content, anchor, timestamp, status)
 - [x] BranchSession model
-- [ ] Database schema design
+- [x] Database schema design
 
 ### 2.2 Storage Layer
 - [ ] SQLite for local storage (MVP)
@@ -135,20 +135,20 @@ A reading-first system that helps users capture, defer, and develop ideas during
 ## Architecture Decisions Record (ADR)
 
 ### ADR-001: Primary Language Selection
-**Date:** December 9, 2025  
-**Status:** Accepted  
-**Context:** Need to choose primary development language  
-**Decision:** Python for backend/core logic  
-**Rationale:** 
+**Date:** December 9, 2025
+**Status:** Accepted
+**Context:** Need to choose primary development language
+**Decision:** Python for backend/core logic
+**Rationale:**
 - User proficiency
 - Rich ecosystem for PDF handling, NLP, and AI
 - Fast prototyping capability
 
 ### ADR-002: Logging System
-**Date:** December 9, 2025  
-**Status:** Accepted  
-**Context:** Need collaborative logging for multiple contributors (human + AI agents)  
-**Decision:** Date-based folder structure with contributor-prefixed files  
+**Date:** December 9, 2025
+**Status:** Accepted
+**Context:** Need collaborative logging for multiple contributors (human + AI agents)
+**Decision:** Date-based folder structure with contributor-prefixed files
 **Rationale:**
 - Prevents merge conflicts (each contributor writes separate files)
 - Chronological organization by date
@@ -164,8 +164,8 @@ A reading-first system that helps users capture, defer, and develop ideas during
 - **Dev Logs:** `docs/dev-logs/` (see README for conventions)
 
 ### ADR-002: Application Type (TBD)
-**Date:** TBD  
-**Status:** Pending  
+**Date:** TBD
+**Status:** Pending
 **Options:**
 1. Desktop app (Tauri + Python backend)
 2. Web app (FastAPI + frontend framework)
@@ -178,4 +178,3 @@ A reading-first system that helps users capture, defer, and develop ideas during
 - PRD: `Branch_PRD_Reading_First_Research_Companion.pdf`
 - Dev Logs: `docs/dev-logs/`
 - Copilot Chats: `docs/copilot-chats/`
-
